@@ -1,4 +1,5 @@
 package org.dist.simplekafkapractice
+import com.fasterxml.jackson.core.`type`.TypeReference
 import org.I0Itec.zkclient.{IZkChildListener, ZkClient}
 import org.I0Itec.zkclient.exception.{ZkNoNodeException, ZkNodeExistsException}
 import org.dist.kvstore.JsonSerDes
@@ -72,13 +73,41 @@ class ZookeeperClientImpl(config: Config) extends  ZookeeperClient {
     JsonSerDes.deserialize(data.getBytes, classOf[Broker])
   }
 
+  private def getTopicPath(topicName: String) = {
+    BrokerTopicsPath + "/" + topicName
+  }
+
+  override def getPartitionAssignmentsFor(topicName: String): List[PartitionReplicas] = {
+    val partitionAssignments:String = zkClient.readData(getTopicPath(topicName))
+    JsonSerDes.deserialize[List[PartitionReplicas]](partitionAssignments.getBytes, new TypeReference[List[PartitionReplicas]](){})
+  }
+
+  override def getAllBrokerIds(): Set[Int] = {
+    zkClient.getChildren(BrokerIdsPath).asScala.map(_.toInt).toSet
+  }
+
+  override def setPartitionReplicasForTopic(topicName: String, partitionReplicas: Set[PartitionReplicas]): Unit = {
+    val topicsPath = getTopicPath(topicName)
+    val topicsData = JsonSerDes.serialize(partitionReplicas)
+    createPersistentPath(zkClient, topicsPath, topicsData)
+  }
+
+  def createPersistentPath(client: ZkClient, path: String, data: String = ""): Unit = {
+    try {
+      client.createPersistent(path, data)
+    } catch {
+      case e: ZkNoNodeException => {
+        createParentPath(client, path)
+        client.createPersistent(path, data)
+      }
+    }
+  }
+
   override def shutdown(): Unit = ???
 
-  override def setPartitionReplicasForTopic(topicName: String, partitionReplicas: Set[PartitionReplicas]): Unit = ???
 
-  override def getAllBrokerIds(): Set[Int] = ???
 
-  override def getPartitionAssignmentsFor(topicName: String): List[PartitionReplicas] = ???
+
 
   override def subscribeTopicChangeListener(listener: IZkChildListener): Option[List[String]] = ???
 

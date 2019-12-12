@@ -27,6 +27,7 @@ class BrokerRegistrationTest extends ZookeeperTestHarness{
     val broker1: KafkaBroker = new KafkaBroker(zookeeperClient, config);
     broker1.register();
 
+
     val config2:Config = new Config(2, new Networks().hostname(), TestUtils.choosePort(), zkConnect, List(TestUtils.tempDir().getAbsolutePath));
     val zookeeperClient2: ZookeeperClientImpl = new ZookeeperClientImpl(config);
 
