@@ -5,7 +5,7 @@ import org.dist.queue.server.Config
 import org.dist.queue.utils.ZkUtils.Broker
 import org.dist.util.Networks
 
-class BrokerTest extends ZookeeperTestHarness{
+class BrokerRegistrationTest extends ZookeeperTestHarness{
  test("should test if broker is registered with zookeeper") {
 
    val config:Config = new Config(1, new Networks().hostname(), TestUtils.choosePort(), zkConnect, List(TestUtils.tempDir().getAbsolutePath));

@@ -5,7 +5,7 @@ import org.dist.queue.{TestUtils, ZookeeperTestHarness}
 import org.dist.util.Networks
 import org.scalatest.Matchers
 
-class LeaderElectionTest extends ZookeeperTestHarness{
+class ControllerElectionTest extends ZookeeperTestHarness{
 
   test("Should elect the controller as leader") {
 
@@ -21,7 +21,7 @@ class LeaderElectionTest extends ZookeeperTestHarness{
 
   }
 
-  test("Should elect the first controller that creates the controller path as leader") {
+  test("Should elect the first controller that creates the controller path, as leader") {
     var config:Config = new Config(13, new Networks().hostname(), TestUtils.choosePort(), zkConnect, List(TestUtils.tempDir().getAbsolutePath));
     val zookeeperClient: ZookeeperClientImpl = new ZookeeperClientImpl(config);
 
@@ -37,7 +37,7 @@ class LeaderElectionTest extends ZookeeperTestHarness{
     assert(controller1.currentLeader == expectedLeader);
   }
 
-  test("Should elect the first controller that creates the controller path as leader. Second controller should know first controller is the leader") {
+  test("Should elect the first controller that creates the controller path, as leader. Second controller should know first controller is the leader") {
     var config:Config = new Config(13, new Networks().hostname(), TestUtils.choosePort(), zkConnect, List(TestUtils.tempDir().getAbsolutePath));
     val zookeeperClient: ZookeeperClientImpl = new ZookeeperClientImpl(config);
 
