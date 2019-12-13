@@ -109,7 +109,10 @@ class ZookeeperClientImpl(config: Config) extends  ZookeeperClient {
 
 
 
-  override def subscribeTopicChangeListener(listener: IZkChildListener): Option[List[String]] = ???
+  override def subscribeTopicChangeListener(listener: IZkChildListener): Option[List[String]] = {
+    val result = zkClient.subscribeChildChanges(BrokerTopicsPath, listener)
+    Option(result).map(_.asScala.toList)
+  }
 
   override def subscribeControllerChangeListner(controller: Controller): Unit = ???
 
