@@ -46,7 +46,7 @@ test("To test the leader and replicas information is sent to appropriate brokers
 
 
   val replicationAssignmentStrategy: ReplicaAssignmentStrategy = Mockito.mock(classOf[ReplicaAssignmentStrategy])
-  val replicaList: List[Int] = List(1, 2, 3);
+  val replicaList: List[Int] = List(1, 2,3);
   val partitionSet: Set[PartitionReplicas] = Set(new PartitionReplicas(1, replicaList))
 
   Mockito.when(replicationAssignmentStrategy.assignReplicasForPartitions(ArgumentMatchers.anyInt(),
