@@ -9,7 +9,7 @@ class BrokerChangeListenerTest extends ZookeeperTestHarness {
     var config: Config = new Config(1, new Networks().hostname(), TestUtils.choosePort(), zkConnect, List(TestUtils.tempDir().getAbsolutePath));
     val zookeeperClient: ZookeeperClientImpl = new ZookeeperClientImpl(config);
 
-    val controller: KafkaController = new KafkaController(config, zookeeperClient);
+    val controller: KafkaController = new KafkaController(config, zookeeperClient,null);
     controller.Start();
 
     val broker: KafkaBroker = new KafkaBroker(zookeeperClient, config);

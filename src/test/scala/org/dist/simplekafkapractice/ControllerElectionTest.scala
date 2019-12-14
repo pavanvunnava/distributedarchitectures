@@ -12,7 +12,7 @@ class ControllerElectionTest extends ZookeeperTestHarness{
     var config:Config = new Config(1, new Networks().hostname(), TestUtils.choosePort(), zkConnect, List(TestUtils.tempDir().getAbsolutePath));
     val zookeeperClient: ZookeeperClientImpl = new ZookeeperClientImpl(config);
 
-    val controller1:KafkaController  = new KafkaController(config, zookeeperClient);
+    val controller1:KafkaController  = new KafkaController(config, zookeeperClient, null);
     controller1.Start();
 
     val expectedLeader =1;
@@ -25,11 +25,11 @@ class ControllerElectionTest extends ZookeeperTestHarness{
     var config:Config = new Config(13, new Networks().hostname(), TestUtils.choosePort(), zkConnect, List(TestUtils.tempDir().getAbsolutePath));
     val zookeeperClient: ZookeeperClientImpl = new ZookeeperClientImpl(config);
 
-    val controller1:KafkaController  = new KafkaController(config, zookeeperClient);
+    val controller1:KafkaController  = new KafkaController(config, zookeeperClient, null);
     controller1.Start();
 
     var config2:Config = new Config(9, new Networks().hostname(), TestUtils.choosePort(), zkConnect, List(TestUtils.tempDir().getAbsolutePath));
-    val controller2:KafkaController  = new KafkaController(config2, zookeeperClient);
+    val controller2:KafkaController  = new KafkaController(config2, zookeeperClient, null);
     controller2.Start();
 
     val expectedLeader =13;
@@ -41,11 +41,13 @@ class ControllerElectionTest extends ZookeeperTestHarness{
     var config:Config = new Config(13, new Networks().hostname(), TestUtils.choosePort(), zkConnect, List(TestUtils.tempDir().getAbsolutePath));
     val zookeeperClient: ZookeeperClientImpl = new ZookeeperClientImpl(config);
 
-    val controller1:KafkaController  = new KafkaController(config, zookeeperClient);
+    val controller1:KafkaController  = new KafkaController(config, zookeeperClient, null);
     controller1.Start();
 
+
     var config2:Config = new Config(9, new Networks().hostname(), TestUtils.choosePort(), zkConnect, List(TestUtils.tempDir().getAbsolutePath));
-    val controller2:KafkaController  = new KafkaController(config2, zookeeperClient);
+    val zookeeperClient2: ZookeeperClientImpl = new ZookeeperClientImpl(config2);
+    val controller2:KafkaController  = new KafkaController(config2, zookeeperClient2, null);
     controller2.Start();
 
     val expectedLeader =13;

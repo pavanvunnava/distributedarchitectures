@@ -13,7 +13,7 @@ test("should create a topic in a zookeeper") {
   var config: Config = new Config(1, new Networks().hostname(), TestUtils.choosePort(), zkConnect, List(TestUtils.tempDir().getAbsolutePath));
   val zookeeperClient: ZookeeperClientImpl = new ZookeeperClientImpl(config);
 
-  val controller1:KafkaController  = new KafkaController(config, zookeeperClient);
+  val controller1:KafkaController  = new KafkaController(config, zookeeperClient, null);
   controller1.Start();
 
   val broker1: KafkaBroker = new KafkaBroker(zookeeperClient, config);
